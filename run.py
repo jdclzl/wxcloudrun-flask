@@ -15,11 +15,6 @@ options["baike_num"] = 5
 
 app = Flask(__name__)
 
-""" 读取图片 """
-def get_file_content(filePath):
-    with open(filePath, 'rb') as fp:
-        return fp.read()
-
 @app.route("/detect", methods=["POST"])
 def detect():
     if request.content_type.startswith('application/json'):            
