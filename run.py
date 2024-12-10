@@ -1,7 +1,7 @@
 # 创建应用实例
 import sys
 
-from flask import request
+from flask import request, Flask
 from wxcloudrun import app
 from aip import AipImageClassify
 
@@ -13,15 +13,17 @@ client = AipImageClassify(APP_ID, API_KEY, SECRET_KEY)
 """ 如果有可选参数 """
 options = {}
 options["baike_num"] = 5
+
+app = Flask(__name__)
+
 """ 读取图片 """
 def get_file_content(filePath):
     with open(filePath, 'rb') as fp:
         return fp.read()
 
-@app.route("/", methods=["POST"])
-def process():
+@app.route("/detect", methods=["POST"])
+def detect():
     if request.content_type.startswith('application/json'):            
-        # comment = request.get_json()["content"]
         img = request.json.get('img')
         res = client.plantDetect(img, options)
         return res
@@ -30,4 +32,4 @@ def process():
 
 # 启动Flask Web服务
 if __name__ == '__main__':
-    app.run(host=sys.argv[1], port=sys.argv[2])
+    app.run("0.0.0.0", "80")
