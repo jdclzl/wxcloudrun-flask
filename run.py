@@ -49,8 +49,8 @@ def detect():
         img = request.json.get('img')
         decoded_data = base64.b64decode(img)
         res = client.plantDetect(decoded_data, options)
-        if 'description' not in res.result[0].baikeinfo:
-            res.result[0].baikeinfo = query(res.result[0].name)
+        if 'description' not in res['result'][0]['baike_info']:
+            res['result'][0]['baike_info'] = query(res['result'][0]['name'])
         return res
     return {}
 
